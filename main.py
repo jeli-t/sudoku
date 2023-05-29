@@ -2,6 +2,7 @@
 
 
 import random
+import tkinter as tk
 
 
 class generate_sudoku():
@@ -47,7 +48,41 @@ class generate_sudoku():
         for row in self.board:
             print(row)
 
+    def return_board(self):
+        return self.board
+
+
+class SudokuGame():
+    def __init__(self, board, solution):
+        self.board = board
+        self.solution = solution
+        self.window = tk.Tk()
+        self.window.title("Sudoku")
+        self.entries = []
+        for i in range(9):
+            row_entries = []
+            for j in range(9):
+                entry = tk.Entry(self.window, width=4, font=("Arial", 14))
+                entry.grid(row=i, column=j)
+                row_entries.append(entry)
+            self.entries.append(row_entries)
+        #####################
+        self.show_solution()
+
+    def show_solution(self):
+        for i in range(9):
+            for j in range(9):
+                value = self.solution[i][j]
+                self.entries[i][j].delete(0, tk.END)
+                self.entries[i][j].insert(tk.END, str(value))
+                self.entries[i][j].config(state="disabled")
+
+    def run(self):
+        self.window.mainloop()
+
 
 if __name__ == "__main__":
-    board = generate_sudoku()
-    print(board)
+    generator = generate_sudoku()
+    solution = generator.return_board()
+    game = SudokuGame(solution, solution)
+    game.run()
