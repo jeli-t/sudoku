@@ -10,7 +10,7 @@ class generate_sudoku():
         self.solution = [[0] * 9 for _ in range(9)]
         self.board = [[0] * 9 for _ in range(9)]
         self.generate(self.solution)
-        self.board = self.remove_values(self.solution, 30)
+        self.board = self.remove_values(self.solution, 50)
 
 
     def __repr__(self):
@@ -80,6 +80,7 @@ class SudokuGame():
         self.window = tk.Tk()
         self.window.title("Sudoku")
         self.entries = []
+
         for i in range(9):
             row_entries = []
             for j in range(9):
@@ -87,8 +88,13 @@ class SudokuGame():
                 entry.grid(row=i, column=j)
                 row_entries.append(entry)
             self.entries.append(row_entries)
-        #####################
-        self.show_solution()
+
+        for i in range(9):
+            for j in range(9):
+                value = self.board[i][j]
+                if value != 0:
+                    self.entries[i][j].insert(tk.END, str(value))
+                    self.entries[i][j].config(state="disabled")
 
     def show_solution(self):
         for i in range(9):
@@ -104,10 +110,7 @@ class SudokuGame():
 
 if __name__ == "__main__":
     generator = generate_sudoku()
-    generator.print_board()
-    print('\n')
-    generator.print_solution()
-    # solution = generator.return_solution()
-    # board = generator.return_board()
-    # game = SudokuGame(board, solution)
-    # game.run()
+    solution = generator.return_solution()
+    board = generator.return_board()
+    game = SudokuGame(board, solution)
+    game.run()
