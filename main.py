@@ -10,7 +10,7 @@ class generate_sudoku():
         self.solution = [[0] * 9 for _ in range(9)]
         self.board = [[0] * 9 for _ in range(9)]
         self.generate(self.solution)
-        self.board = self.remove_values(self.solution, 50)
+        self.board = self.remove_values(self.solution, 3)
 
 
     def __repr__(self):
@@ -111,11 +111,11 @@ class SudokuGame():
                 solution_value = self.solution[i][j]
                 try:
                     if int(value) == solution_value:
-                        print('Corect value in ', i, j)
+                        self.entries[i][j].config(bg='#1dcf4c')
                     else:
-                        print('Incorect value in ', i, j)
+                        self.entries[i][j].config(bg='#d10d20')
                 except ValueError:
-                    print('Empty in ', i, j)
+                    self.entries[i][j].config(bg='#d10d20')
 
     def show_solution(self):
         for i in range(9):
