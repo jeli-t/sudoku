@@ -7,11 +7,14 @@ import tkinter as tk
 
 class generate_sudoku():
     def __init__(self):
+        self.solution = [[0] * 9 for _ in range(9)]
         self.board = [[0] * 9 for _ in range(9)]
-        self.generate(self.board)
+        self.generate(self.solution)
+        self.board = self.remove_values(self.solution, 30)
+
 
     def __repr__(self):
-        return str(self.board)
+        return str(self.solution)
 
     def is_valid(self, board, row, col, num):
         # check row and column
@@ -44,12 +47,30 @@ class generate_sudoku():
                     return False
         return True
 
+    # hide some values from solution
+    def remove_values(self, solution, n):
+        board = [row[:] for row in solution]
+        n = min(n, 50)
+        zeros_indices = random.sample(range(81), n)
+        for index in zeros_indices:
+            row = index // 9
+            col = index % 9
+            board[row][col] = 0
+        return board
+
     def print_board(self):
         for row in self.board:
             print(row)
 
+    def print_solution(self):
+        for row in self.solution:
+            print(row)
+
     def return_board(self):
         return self.board
+
+    def return_solution(self):
+        return self.solution
 
 
 class SudokuGame():
@@ -83,6 +104,10 @@ class SudokuGame():
 
 if __name__ == "__main__":
     generator = generate_sudoku()
-    solution = generator.return_board()
-    game = SudokuGame(solution, solution)
-    game.run()
+    generator.print_board()
+    print('\n')
+    generator.print_solution()
+    # solution = generator.return_solution()
+    # board = generator.return_board()
+    # game = SudokuGame(board, solution)
+    # game.run()
