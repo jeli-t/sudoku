@@ -91,7 +91,7 @@ class SudokuGame():
             self.entries.append(row_entries)
 
         # create buttons
-        self.check_button = tk.Button(self.window, text="Check", command=self.check_solution)
+        self.check_button = tk.Button(self.window, text="Check solution", command=self.check_solution)
         self.check_button.grid(row=9, column=0, columnspan=4, pady=10)
         self.solve_button = tk.Button(self.window, text="Show solution", command=self.show_solution)
         self.solve_button.grid(row=9, column=4, columnspan=4, pady=10)
@@ -105,7 +105,17 @@ class SudokuGame():
                     self.entries[i][j].config(state="disabled")
 
     def check_solution(self):
-        print('check')
+        for i in range(9):
+            for j in range(9):
+                value = self.entries[i][j].get()
+                solution_value = self.solution[i][j]
+                try:
+                    if int(value) == solution_value:
+                        print('Corect value in ', i, j)
+                    else:
+                        print('Incorect value in ', i, j)
+                except ValueError:
+                    print('Empty in ', i, j)
 
     def show_solution(self):
         for i in range(9):
