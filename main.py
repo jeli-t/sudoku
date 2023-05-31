@@ -10,7 +10,7 @@ class generate_sudoku():
         self.solution = [[0] * 9 for _ in range(9)]
         self.board = [[0] * 9 for _ in range(9)]
         self.generate(self.solution)
-        self.board = self.remove_values(self.solution, 3)
+        self.board = self.remove_values(self.solution, 30)
 
 
     def __repr__(self):
@@ -85,16 +85,16 @@ class SudokuGame():
         for i in range(9):
             row_entries = []
             for j in range(9):
-                entry = tk.Entry(self.window, width=4, font=("Arial", 14))
+                entry = tk.Entry(self.window, width=2, font=("Arial", 30), border='2px solid', fg='#000000', disabledforeground='#000000')
                 entry.grid(row=i, column=j)
                 row_entries.append(entry)
             self.entries.append(row_entries)
 
         # create buttons
-        self.check_button = tk.Button(self.window, text="Check solution", command=self.check_solution)
+        self.check_button = tk.Button(self.window, text="Check solution", font=("Arial", 20), command=self.check_solution)
         self.check_button.grid(row=9, column=0, columnspan=4, pady=10)
-        self.solve_button = tk.Button(self.window, text="Show solution", command=self.show_solution)
-        self.solve_button.grid(row=9, column=4, columnspan=4, pady=10)
+        self.solve_button = tk.Button(self.window, text="Show solution", font=("Arial", 20), command=self.show_solution)
+        self.solve_button.grid(row=9, column=5, columnspan=4, pady=10)
 
         # fill the entry fields
         for i in range(9):
@@ -120,10 +120,19 @@ class SudokuGame():
     def show_solution(self):
         for i in range(9):
             for j in range(9):
-                value = self.solution[i][j]
-                self.entries[i][j].delete(0, tk.END)
-                self.entries[i][j].insert(tk.END, str(value))
-                self.entries[i][j].config(state="disabled")
+                value = self.entries[i][j].get()
+                solution_value = self.solution[i][j]
+                try:
+                    if int(value) == solution_value:
+                        self.entries[i][j].config(state="disabled")
+                    else:
+                        self.entries[i][j].delete(0, tk.END)
+                        self.entries[i][j].insert(tk.END, str(solution_value))
+                        self.entries[i][j].config(state="disabled", disabledbackground='#ffff00')
+                except ValueError:
+                    self.entries[i][j].delete(0, tk.END)
+                    self.entries[i][j].insert(tk.END, str(solution_value))
+                    self.entries[i][j].config(state="disabled", disabledbackground='#ffff00')
 
     def run(self):
         self.window.mainloop()
