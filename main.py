@@ -10,7 +10,7 @@ class generate_sudoku():
         self.solution = [[0] * 9 for _ in range(9)]
         self.board = [[0] * 9 for _ in range(9)]
         self.generate(self.solution)
-        self.board = self.remove_values(self.solution, 30)
+        self.board = self.remove_values(self.solution, 50)
 
 
     def __repr__(self):
@@ -73,28 +73,38 @@ class generate_sudoku():
         return self.solution
 
 
-class SudokuGame():
+class SudokuGUI():
     def __init__(self, board, solution):
         self.board = board
         self.solution = solution
         self.window = tk.Tk()
         self.window.title("Sudoku")
+        self.window.resizable(0,0)
+        self.window.config(background='#454545', padx=20, pady=20)
         self.entries = []
 
         # create entry fields
         for i in range(9):
             row_entries = []
             for j in range(9):
-                entry = tk.Entry(self.window, width=2, font=("Arial", 30), border='2px solid', fg='#000000', disabledforeground='#000000')
-                entry.grid(row=i, column=j)
+                entry = tk.Entry(self.window, width=2, font=("Arial", 30), fg='#000000', disabledforeground='#000000', disabledbackground='#c4c4c4')
+                if i == 2 or i == 5:
+                    if j == 2 or j == 5:
+                        entry.grid(row=i, column=j, padx=(2,15), pady=(2,15))
+                    else:
+                        entry.grid(row=i, column=j, padx=2, pady=(2,15))
+                elif j == 2 or j == 5:
+                        entry.grid(row=i, column=j, padx=(2,15), pady=2)
+                else:
+                    entry.grid(row=i, column=j, padx=2, pady=2)
                 row_entries.append(entry)
             self.entries.append(row_entries)
 
         # create buttons
-        self.check_button = tk.Button(self.window, text="Check solution", font=("Arial", 20), command=self.check_solution)
-        self.check_button.grid(row=9, column=0, columnspan=4, pady=10)
-        self.solve_button = tk.Button(self.window, text="Show solution", font=("Arial", 20), command=self.show_solution)
-        self.solve_button.grid(row=9, column=5, columnspan=4, pady=10)
+        self.check_button = tk.Button(self.window, text="Check solution", font=("Arial", 16), command=self.check_solution)
+        self.check_button.grid(row=9, column=0, columnspan=4, pady=20)
+        self.solve_button = tk.Button(self.window, text="Show solution", font=("Arial", 16), command=self.show_solution)
+        self.solve_button.grid(row=9, column=5, columnspan=4, pady=20)
 
         # fill the entry fields
         for i in range(9):
@@ -142,5 +152,5 @@ if __name__ == "__main__":
     generator = generate_sudoku()
     solution = generator.return_solution()
     board = generator.return_board()
-    game = SudokuGame(board, solution)
-    game.run()
+    gui = SudokuGUI(board, solution)
+    gui.run()
