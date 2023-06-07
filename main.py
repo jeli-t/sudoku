@@ -87,14 +87,14 @@ class SudokuGUI():
         for i in range(9):
             row_entries = []
             for j in range(9):
-                entry = tk.Entry(self.window, width=2, font=("Arial", 30), fg='#000000', disabledforeground='#000000', disabledbackground='#c4c4c4')
+                entry = tk.Entry(self.window, width=2, font=("Arial", 30), fg='#000000', disabledforeground='#000000', disabledbackground='#c4c4c4', justify='center')
                 if i == 2 or i == 5:
                     if j == 2 or j == 5:
-                        entry.grid(row=i, column=j, padx=(2,15), pady=(2,15))
+                        entry.grid(row=i, column=j, padx=(2,6), pady=(2,6))
                     else:
-                        entry.grid(row=i, column=j, padx=2, pady=(2,15))
+                        entry.grid(row=i, column=j, padx=2, pady=(2,6))
                 elif j == 2 or j == 5:
-                        entry.grid(row=i, column=j, padx=(2,15), pady=2)
+                        entry.grid(row=i, column=j, padx=(2,6), pady=2)
                 else:
                     entry.grid(row=i, column=j, padx=2, pady=2)
                 row_entries.append(entry)
